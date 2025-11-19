@@ -22,5 +22,5 @@ jobs:
         run: flake8 app_refact.py
  
       - name: Run tests
-        run: pytest --maxfail=1 --disable-warnings -q
+        run: pytest app_refact.py --cov=app --cov-report=term-missing --cov-report=json:coverage_pipeline.json
  
