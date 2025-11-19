@@ -40,7 +40,7 @@ jobs:
         run: radon cc app_refact.py -s -a > radon-cc-report.txt
 
       - name: Run radon (maintainability)
-        run: radon mi app_refact.py -s -a > radon-mi-report.txt
+        run: radon mi app_refact.py -s > radon-mi-report.txt
 
       - name: Run unit tests
         run: pytest app_refact.py --junitxml=pytest-report.xml
