@@ -16,7 +16,7 @@ DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "digicheese")
 
 CONNECTION_STRING = f"sqlite:///./test.db"  # pour simplification, on utilise 
-SQLite
+#SQLite
 engine = create_engine(CONNECTION_STRING, 
                        connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -27,6 +27,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 Base = declarative_base()
+
 
 class Client(Base):
     __tablename__ = "t_client"
@@ -77,6 +78,7 @@ class ClientPatch(BaseModel):
 
 class ClientInDB(ClientBase):
     codcli: int
+
     class Config:
         orm_mode = True
 
@@ -146,7 +148,9 @@ class ClientService:
 
 
 app = FastAPI()
+
 router = APIRouter(prefix="/api/v1/client", tags=["client"])
+
 service = ClientService()
 
 def get_db():
