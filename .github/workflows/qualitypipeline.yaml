@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements.txt
  
       - name: Run linters
-        run: flake8 app.py
+        run: flake8 app2.py
  
       - name: Run tests
         run: pytest --maxfail=1 --disable-warnings -q
