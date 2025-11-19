@@ -2,8 +2,11 @@ fastapi
 uvicorn 
 sqlalchemy 
 pydantic 
+pymysql
+python-dotenv
 pytest 
 overage 
 pylint 
 flake8 
 radon 
+httpx
