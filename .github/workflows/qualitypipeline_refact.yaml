@@ -2,10 +2,7 @@ name: QualityPipeline_refact
 
 on:
   push:
-    paths:
-      - 'app_refact.py'
-      - 'tests/**'
-      - '.github/workflows/qualitypipeline_refact.yaml'
+  
   pull_request:
     paths:
       - 'app_refact.py'
