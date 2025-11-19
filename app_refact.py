@@ -16,7 +16,8 @@ DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "digicheese")
 
 CONNECTION_STRING = f"sqlite:///./test.db"  # pour simplification, on utilise 
-#SQLite
+# SQLite
+
 engine = create_engine(CONNECTION_STRING, 
                        connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -153,6 +154,7 @@ router = APIRouter(prefix="/api/v1/client", tags=["client"])
 
 service = ClientService()
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -160,9 +162,11 @@ def get_db():
     finally:
         db.close()
 
+
 @router.get("/", response_model=List[ClientInDB])
 def get_clients(db: Session = Depends(get_db)):
     return service.get_all_clients(db)
+
 
 @router.get("/{client_id}", response_model=ClientInDB)
 def get_client(client_id: int, db: Session = Depends(get_db)):
@@ -171,9 +175,11 @@ def get_client(client_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Client non trouvé")
     return client
 
+
 @router.post("/", response_model=ClientInDB)
 def create_client(client: ClientPost, db: Session = Depends(get_db)):
     return service.create_client(db, client)
+
 
 @router.patch("/{client_id}", response_model=ClientInDB)
 def patch_client(client_id: int, client: ClientPatch, db: Session = Depends(get_db)):
@@ -182,12 +188,14 @@ def patch_client(client_id: int, client: ClientPatch, db: Session = Depends(get_
         raise HTTPException(status_code=404, detail="Client non trouvé")
     return service.patch_client(db, client_id, client)
 
+
 @router.delete("/{client_id}", response_model=ClientInDB)
 def delete_client(client_id: int, db: Session = Depends(get_db)):
     db_client = service.get_client_by_id(db, client_id)
     if not db_client:
         raise HTTPException(status_code=404, detail="Client non trouvé")
     return service.delete_client(db, client_id)
+
 
 app.include_router(router)
 
@@ -212,6 +220,7 @@ def test_root():
     assert response.status_code == 200
     assert response.json() == {"message": "FastAPI operational"}
 
+
 def test_create_and_get_client():
     from fastapi.testclient import TestClient
     client = TestClient(app)
@@ -235,6 +244,7 @@ def test_create_and_get_client():
     assert fetched["nom"] == "Dupont"
     assert fetched["prenom"] == "Jean"
 
+
 def test_patch_client():
     from fastapi.testclient import TestClient
     client = TestClient(app)
@@ -254,6 +264,7 @@ def test_patch_client():
     assert response_patch.status_code == 200
     updated = response_patch.json()
     assert updated["prenom"] == "Pierre"
+
 
 # --------------------------
 # Run app (for direct python execution)
