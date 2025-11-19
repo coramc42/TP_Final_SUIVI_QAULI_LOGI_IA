@@ -1,0 +1,9 @@
+fastapi 
+uvicorn 
+sqlalchemy 
+pydantic 
+pytest 
+overage 
+pylint 
+flake8 
+radon 

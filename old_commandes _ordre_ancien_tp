@@ -1,0 +1,36 @@
+pip install pylint
+pip install pytest
+python3 -m venv venv
+python --version
+pip install --upgrade pip
+
+python app.py
+pip install fastapi uvicorn sqlalchemy pydantic pytest coverage pylint
+uvicorn app:app --reload
+
+puis dans un autre terminal
+
+pylint C:\Users\coram\Documents\Devoir_Diginamic\TP_Qualite_IA_Et_autre_outils
+pylint app.py --output-format=json > pylint_report.json
+pip install pytest pytest-cov
+
+
+ou peut etre :  pytest app.py     
+
+Pour tester et coveage:
+pytest test_app.py --cov=app --cov-report=term-missing --cov-report=json:coverage2.json
+
+
+Partie 2 :
+TD 2.1 :
+on refait et on créé test_app.py avec les tests généré par ia pour les test unitaires
+on va créer un new coverage 2
+
+pytest test_app.py --cov=app --cov-report=term-missing --cov-report=json:coverage2.json
+
+ou:
+
+#pytest test_app.py --json-report --json-report-file=pytest_report3.json   ## ne focntionne pas
+coverage run -m pytest app.py > sortie.txt
+coverage report -m app.py >> sortie.txt
+
