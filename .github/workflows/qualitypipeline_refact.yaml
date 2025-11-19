@@ -1,0 +1,65 @@
+name: QualityPipeline_refact
+
+on:
+  push:
+    paths:
+      - 'app_refact.py'
+      - 'tests/**'
+      - '.github/workflows/qualitypipeline.yml'
+  pull_request:
+    paths:
+      - 'app_refact.py'
+      - 'tests/**'
+      - '.github/workflows/qualitypipeline.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install radon pylint flake8 pytest
+
+      - name: Run flake8
+        run: flake8 app_refact.py --output-file=flake8-report.txt
+
+      - name: Run pylint
+        run: pylint app_refact.py > pylint-report.txt || true
+
+      - name: Run radon (cyclomatic complexity)
+        run: radon cc app_refact.py -s -a > radon-cc-report.txt
+
+      - name: Run radon (maintainability)
+        run: radon mi app_refact.py -s -a > radon-mi-report.txt
+
+      - name: Run unit tests
+        run: pytest app_refact.py --junitxml=pytest-report.xml
+
+      - name: Setup k6
+        uses: grafana/setup-k6@v0.2.0
+
+      - name: Run k6 load test
+        run: k6 run loadtest.js --out json=k6-report.json
+        # charge ton script loadtest.js dans le repo
+
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: |
+            flake8-report.txt
+            pylint-report.txt
+            radon-cc-report.txt
+            radon-mi-report.txt
+            pytest-report.xml
+            k6-report.json
