@@ -45,15 +45,20 @@ jobs:
       - name: Run unit tests
         run: pytest app_refact.py --junitxml=pytest-report.xml
 
-      - name: Setup k6
-        uses: grafana/setup-k6@v0.2.0
+      - name: Install k6
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnupg ca-certificates
+          curl -s https://dl.k6.io/key.gpg | sudo apt-key add -
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install -y k6
 
       - name: Run k6 load test
         run: k6 run loadtest.js --out json=k6-report.json
-        # charge ton script loadtest.js dans le repo
 
       - name: Upload artefacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: |
