@@ -5,12 +5,12 @@ on:
     paths:
       - 'app_refact.py'
       - 'tests/**'
-      - '.github/workflows/qualitypipeline.yml'
+      - '.github/workflows/qualitypipeline_refact.yml'
   pull_request:
     paths:
       - 'app_refact.py'
       - 'tests/**'
-      - '.github/workflows/qualitypipeline.yml'
+      - '.github/workflows/qualitypipeline_refact.yml'
 
 jobs:
   build:
