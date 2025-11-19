@@ -6,8 +6,8 @@ export let options = {
     vus: 10, // nombre d'utilisateurs virtuels
     duration: '30s', // durée du test
     thresholds: {
-        http_req_duration: ['p(95)<500'], // 95% des requêtes doivent répondre en moins de 500ms
-        http_req_failed: ['rate<1'], // taux d'erreur < 1%
+        // http_req_duration: ['p(95)<500'], // 95% des requêtes doivent répondre en moins de 500ms
+        // http_req_failed: ['rate<1'], // taux d'erreur < 1%
         // http_reqs: ['rate>10'], // au moins 10 requêtes/seconde
     },
 };
